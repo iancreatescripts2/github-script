@@ -1,0 +1,38 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local savedPosition = nil
+
+-- Función para guardar la ubicación actual
+local function saveLocation()
+    savedPosition = character.HumanoidRootPart.Position
+    print("Ubicación guardada: " .. tostring(savedPosition))
+end
+
+-- Función para teletransportar al jugador a la ubicación guardada
+local function tpLocation()
+    if savedPosition then
+        character.HumanoidRootPart.Position = savedPosition
+        print("Teletransportado a: " .. tostring(savedPosition))
+    else
+        print("No hay ubicación guardada.")
+    end
+end
+
+-- Crear botones para las opciones
+local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+local saveButton = Instance.new("TextButton")
+local tpButton = Instance.new("TextButton")
+
+-- Configuración del botón "Save Location"
+saveButton.Size = UDim2.new(0, 200, 0, 50)
+saveButton.Position = UDim2.new(0.5, -100, 0.5, -60)
+saveButton.Text = "Save Location"
+saveButton.Parent = screenGui
+saveButton.MouseButton1Click:Connect(saveLocation)
+
+-- Configuración del botón "TP Location"
+tpButton.Size = UDim2.new(0, 200, 0, 50)
+tpButton.Position = UDim2.new(0.5, -100, 0.5, 10)
+tpButton.Text = "TP Location"
+tpButton.Parent = screenGui
+tpButton.MouseButton1Click:Connect(tpLocation)
